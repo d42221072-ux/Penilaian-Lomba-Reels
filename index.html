@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Penilaian Lomba Reels Instagram Video Integritas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    :root { --accent:#0b63d3; --muted:#666; }
+    body {
+      font-family: Inter, system-ui, Segoe UI, Arial;
+      margin: 0;
+      color: #111;
+      background: #ffffff;
+    }
+    /* Background logo transparan di paling belakang */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('LOGO%20HAKORDIA%202025_Format%20Fullcolor.jpg') no-repeat center center;
+      background-size: 70%;
+      opacity: 0.08;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .container {
+      max-width: 880px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 6px 24px rgba(12, 20, 40, 0.1);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .logo img {
+      max-width: 260px;
+      height: auto;
+    }
+    h1 {margin: 0 0 12px; font-size: 22px; text-align:center;}
+    p.lead {color: var(--muted); margin-bottom: 20px; text-align:center;}
+    label {display:block;margin:10px 0 6px;font-weight:600}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1 1 220px;min-width:220px}
+    input[type=text], textarea {
+      width: 100%; padding: 8px; border: 1px solid #d9e2ef; border-radius: 8px;
+    }
+    input[type=range]{width:100%}
+    .criteria{background:#fbfdff;padding:12px;border-radius:10px;border:1px solid #eef4ff;margin-bottom:12px}
+    .criteria h3{margin:0 0 8px;font-size:16px}
+    .inline{display:flex;align-items:center;gap:12px}
+    .scoreValue{min-width:54px;text-align:center;font-weight:700}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .secondary{background:#eef3ff;color:var(--accent);border:1px solid #d7e7ff}
+    .results, .rekap{margin-top:24px;padding:16px;border-radius:10px;background:#f3f8ff;border:1px solid #e6f0ff}
+    .rekap table{width:100%;border-collapse:collapse;font-size:14px}
+    .rekap th,.rekap td{border:1px solid #dce7f9;padding:8px 10px;text-align:center}
+    .rekap th{background:#eef5ff}
+    .hapus-btn{
+      background:#ff5a5a;
+      color:white;
+      border:none;
+      padding:6px 10px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .hapus-btn:hover{background:#e33e3e;}
+    footer{font-size:13px;color:var(--muted);margin-top:18px;text-align:center}
+    @media(max-width:600px){.row{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="LOGO%20HAKORDIA%202025_Format%20Fullcolor.jpg" alt="Logo HAKORDIA 2025">
+    </div>
+
+    <h1>Form Penilaian - Lomba Reels Instagram Video Integritas</h1>
+    <p class="lead">Isi nilai tiap aspek, klik “Simpan” untuk menambahkan ke rekap, lalu “Unduh Excel” untuk menyimpan seluruh hasil penilaian.</p>
+
+    <form id="penilaianForm">
+      <div class="row">
+        <div class="col">
+          <label>Nama Dewan Juri</label>
+          <input type="text" id="namaJuri" required>
+        </div>
+        <div class="col">
+          <label>Waktu Penilaian</label>
+          <input type="text" id="waktu" placeholder="YYYY-MM-DD HH:MM" required>
+        </div>
+        <div class="col">
+          <label>Unit Kerja Peserta</label>
+          <input type="text" id="unitKerja" required>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="criteria">
+        <h3>1. Kesesuaian Tema (Bobot 30%)</h3>
+        <p class="note">Tema ini mencerminkan semangat kebersamaan seluruh insan Kemenkeu untuk bersatu dalam tindakan nyata melawan korupsi, menjaga integritas, dan memperkuat kepercayaan public terhadap institusi.</p>
+        <div class="inline">
+          <input type="range" min="0" max="100" value="0" id="c1" oninput="updateScore(1)">
+          <div class="scoreValue" id="v1">0</div>
+        </div>
+      </div>
+      <div class="criteria">
+        <h3>2. Kreativitas & Orisinalitas (Bobot 25%)</h3>
+        <p class="note">a. Isi video harus mencerminkan semangat anti korupsi dan kolaborasi; </p>
+        <p class="note">b. Bentuk karya berupa drama singkat, testimoni, animasi, parodi edukatif, atau bentuk kreatif lainnya;</p>
+        <p class="note">c. Video tidak boleh mengandung unsur SARA, kekerasan, pornografi, atau pelanggaran hak cipta;</p>
+        <p class="note">d. Video belum pernah dipublikasi dalam sosial media manapun.</p>
+        <div class="inline">
+          <input type="range" min="0" max="100" value="0" id="c2" oninput="updateScore(2)">
+          <div class="scoreValue" id="v2">0</div>
+        </div>
+      </div>
+      <div class="criteria">
+        <h3>3. Kualitas Visual & Audio (Bobot 20%)</h3>
+        <p class="note">a. Durasi maksimal 60 detik;</p>
+        <p class="note">b. Format vertikal (9:16);</p>
+        <p class="note">c. Resolusi minimum 720p;</p>
+        <p class="note">d. Backsound (musik latar) bebas dan tidak melanggar hak cipta.</p>
+        <div class="inline">
+          <input type="range" min="0" max="100" value="0" id="c3" oninput="updateScore(3)">
+          <div class="scoreValue" id="v3">0</div>
+        </div>
+      </div>
+      <div class="criteria">
+        <h3>4. Engagement Media Sosial (Bobot 15%)</h3>
+        <p class="note">a. Like;</p>
+        <p class="note">b. Komentar;</p>
+        <p class="note">c. Share.</p>
+        <div class="inline">
+          <input type="range" min="0" max="100" value="0" id="c4" oninput="updateScore(4)">
+          <div class="scoreValue" id="v4">0</div>
+        </div>
+      </div>
+      <div class="criteria">
+        <h3>5. Ketentuan Lainnya (Bobot 10%)</h3>
+        <p class="note">a. Menggunakan Bahasa Indonesia;</p>
+        <p class="note">b. Jumlah tim maksimal 5 orang/unit kerja;</p>
+        <p class="note">c. Penggunaan tagar #SatukanAksiBasmiKorupsi #IntegritasKemenkeuSatuBali #HAKORDIA2025 </p>
+        <p class="note">d. Mencantumkan caption yang berisi pesan anti korupsi dan integritas;</p>
+        <p class="note">e. Video diunggah pada akun Instagram resmi unit kerja dan menandai akun @kemenkeusatu.bali</p>
+        <div class="inline">
+          <input type="range" min="0" max="100" value="0" id="c5" oninput="updateScore(5)">
+          <div class="scoreValue" id="v5">0</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+        <button type="button" class="btn" onclick="simpan()">Simpan</button>
+        <button type="button" class="secondary" onclick="unduhExcel()">Unduh Excel</button>
+        <button type="button" class="secondary" onclick="resetForm()">Reset</button>
+      </div>
+
+      <div class="rekap" id="rekap">
+        <h3>📋 Rekapan Penilaian</h3>
+        <table id="rekapTable">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Juri</th>
+              <th>Unit Kerja</th>
+              <th>Waktu</th>
+              <th>Aspek 1</th>
+              <th>Aspek 2</th>
+              <th>Aspek 3</th>
+              <th>Aspek 4</th>
+              <th>Aspek 5</th>
+              <th>Total</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <footer>
+        <p>Keputusan dewan juri bersifat final. Panitia berhak menggunakan karya untuk edukasi dan publikasi.</p>
+      </footer>
+    </form>
+  </div>
+
+  <script>
+    const bobot = {1:30,2:25,3:20,4:15,5:10};
+    let dataRekap = [];
+
+    function updateScore(i){
+      document.getElementById('v'+i).textContent = document.getElementById('c'+i).value;
+    }
+
+    function resetForm(){
+      document.getElementById('penilaianForm').reset();
+      for(let i=1;i<=5;i++) updateScore(i);
+    }
+
+    function simpan(){
+      const nama = document.getElementById('namaJuri').value || '-';
+      const unit = document.getElementById('unitKerja').value || '-';
+      const waktu = document.getElementById('waktu').value || new Date().toLocaleString();
+      let total = 0;
+      const scores = [];
+      for(let i=1;i<=5;i++){
+        const val = Number(document.getElementById('c'+i).value);
+        const weighted = (val/100)*bobot[i];
+        scores.push(val);
+        total += weighted;
+      }
+      dataRekap.push({
+        No: dataRekap.length+1,
+        NamaJuri: nama,
+        UnitKerja: unit,
+        Waktu: waktu,
+        Aspek1: scores[0],
+        Aspek2: scores[1],
+        Aspek3: scores[2],
+        Aspek4: scores[3],
+        Aspek5: scores[4],
+        Total: total.toFixed(2)
+      });
+      tampilkanRekap();
+      resetForm();
+    }
+
+    function tampilkanRekap(){
+      const tbody = document.querySelector('#rekapTable tbody');
+      tbody.innerHTML = '';
+      dataRekap.forEach((d, idx)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${d.No}</td>
+          <td>${d.NamaJuri}</td>
+          <td>${d.UnitKerja}</td>
+          <td>${d.Waktu}</td>
+          <td>${d.Aspek1}</td>
+          <td>${d.Aspek2}</td>
+          <td>${d.Aspek3}</td>
+          <td>${d.Aspek4}</td>
+          <td>${d.Aspek5}</td>
+          <td><strong>${d.Total}</strong></td>
+          <td><button class="hapus-btn" onclick="hapusBaris(${idx})">🗑️</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function hapusBaris(index){
+      if(confirm('Hapus data penilaian ini?')){
+        dataRekap.splice(index, 1);
+        dataRekap = dataRekap.map((d, i)=>({...d, No:i+1}));
+        tampilkanRekap();
+      }
+    }
+
+    function unduhExcel(){
+      if(dataRekap.length === 0){
+        alert('Belum ada data yang disimpan!');
+        return;
+      }
+      const ws = XLSX.utils.json_to_sheet(dataRekap);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Rekap Penilaian");
+      XLSX.writeFile(wb, "penilaian_lomba_reels_2025.xlsx");
+    }
+
+    for(let i=1;i<=5;i++) updateScore(i);
+  </script>
+</body>
+</html>
