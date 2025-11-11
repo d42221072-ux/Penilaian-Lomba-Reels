@@ -18,6 +18,17 @@
 
 /* 🌈 Gradasi background + logo transparan */
 body {
+  <script>
+  // ===== Password sederhana =====
+  const correctPassword = "hakordia2025"; // Ganti sesuai keinginanmu
+  const userPassword = prompt("🔐 Masukkan kata sandi untuk mengakses halaman ini:");
+
+  if (userPassword !== correctPassword) {
+    document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px;color:red'>❌ Akses ditolak<br>Password salah.</h2>";
+    throw new Error("Akses ditolak");
+  }
+</script>
+
   font-family: Inter, system-ui, Segoe UI, Arial;
   margin: 0;
   color: #111;
